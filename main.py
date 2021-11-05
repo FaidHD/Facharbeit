@@ -3,7 +3,7 @@ import matplotlib.pyplot as mlp
 
 A = float(input("Enter Amplifier: "))
 L = float(input("Enter Wave Frequenz: "))
-x = np.arange(0, 10, 0.1)
+x = np.arange(0, 10, 0.01)
 print(x)
 
 try:
@@ -14,3 +14,5 @@ except:
 
 mlp.plot(x, y)
 mlp.show()
+
+https://www.youtube.com/watch?v=9WZM68aVnGk
