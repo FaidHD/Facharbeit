@@ -1,16 +1,16 @@
-# This is a sample Python script.
+import numpy as np
+import matplotlib.pyplot as mlp
 
-# Press Umschalt+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+A = float(input("Enter Amplifier: "))
+L = float(input("Enter Wave Frequenz: "))
+x = np.arange(0, 10, 0.1)
+print(x)
 
+try:
+    y = A*np.cos((2*np.pi/2)*x)
+    print(y)
+except:
+    print("Calculation failed. Please Enter vaild Arguments")
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Strg+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+mlp.plot(x, y)
+mlp.show()
