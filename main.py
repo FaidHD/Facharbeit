@@ -1,10 +1,17 @@
 import os, sys, sqlite3
 import saaterstellung as saE
+import createDataBase as cDB
+
+
+def SeedInput():
+    name = input("Name: ")
+    wachszeit = int(input("Wachszeit: "))
+    kornabstand = int(input("Kornabstand: "))
+    reihenabstand = int(input("Reihenabstand: "))
+    return (saE.create(name, wachszeit, kornabstand, reihenabstand))
+
 
 def sven():
-    input("Please Press Enter to continue!")
-
-
     # Verbindung, Cursor
     connection = sqlite3.connect("Saatgut.db")
     cursor = connection.cursor()
@@ -12,11 +19,6 @@ def sven():
     # SQL-Abfrage
     sql = "SELECT * FROM saat"
 
-    # Kontrollausgabe der SQL-Abfrage
-    print(sql)
-
-    # Absenden der SQL-Abfrage
-    # Empfang des Ergebnisses
     cursor.execute(sql)
 
     # Ausgabe des Ergebnisses
@@ -25,43 +27,40 @@ def sven():
 
     # Verbindung beenden
     connection.close()
-    sys.exit(0)
-    
+    print("Press Enter to continue!")
+    input()
+    start()
+
+def start():
+    print("Enter 1 to show currently saved seeds")
+    print("Enter 2 to add a new seed to the Database")
+    print("Enter 3 to delete the Database and create a new one")
+    command = int(input("Please Enter One of the Numbers: "))
+
+    if command == 1:
+        sven()
+    elif command == 2:
+        print(SeedInput())
+        start()
+
+    elif command == 3:
+        try:
+            os.remove("Saatgut.db")
+        except:
+            print("No old Database found, creating new one")
+        print(cDB.Database())
+        start()
+    else:
+        print("please Enter a Valid Number. Press Enter to try again.")
+        input()
+
+
 # Existenz feststellen
 if os.path.exists("Saatgut.db"):
-    print("Datei bereits vorhanden")
-    sven()
-
-# Verbindung zur Datenbank erzeugen
-connection = sqlite3.connect("Saatgut.db")
-
-# Datensatz-Cursor erzeugen
-cursor = connection.cursor()
-
-# Datenbanktabelle erzeugen
-sql = "CREATE TABLE saat(" \
-      "name TEXT PRIMARY KEY, " \
-      "wachszeit INTEGER NOT NULL, " \
-      "kornabstand INTEGER NOT NULL, " \
-      "reihenabstand INTEGER NULL)"
-cursor.execute(sql)
-
-# Datensatz erzeugen
-sql = "INSERT INTO saat VALUES('Mais', 16, 10, 60)"
-cursor.execute(sql)
-connection.commit()
-
-# Datensatz erzeugen
-#sql = "INSERT INTO saat VALUES('Weizen', 4, 22, 22)"
-#cursor.execute(sql)
-#connection.commit()
-
-name = input("Name: ")
-wachszeit = input("Wachszeit: ")
-kornabstand = input("Kornabstand: ")
-reihenabstand = input("Reihenabstand: ")
-saE.create(name, wachszeit, kornabstand, reihenabstand, connection, cursor)
+    print("Database already created!")
+    start()
+else:
+    print(cDB.Database())
+    start()
 
 
-# Verbindung beenden
-connection.close()
