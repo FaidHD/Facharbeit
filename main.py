@@ -13,10 +13,10 @@ cursor = connection.cursor()
 
 # Datenbanktabelle erzeugen
 sql = "CREATE TABLE saat(" \
-      "name TEXT, " \
+      "name TEXT PRIMARY KEY, " \
       "wachszeit FLOAT, " \
       "kornabstand INTEGER, " \
-      "reihenabstand INTEGER, "
+      "reihenabstand INTEGER "
 cursor.execute(sql)
 
 # Datensatz erzeugen
