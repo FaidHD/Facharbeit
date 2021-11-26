@@ -13,9 +13,9 @@ class Connection:
 
     def connect(self):
         self.connection = mysql.connector.connect(
-            hostname=self.hostname,
+            host=self.hostname,
             database=self.database,
-            username=self.username,
+            user=self.username,
             password=self.password
         )
         self.cursor = self.connection.cursor()
@@ -23,8 +23,15 @@ class Connection:
     def execute_stmt(self, statement, values):
         self.cursor.execute(statement, values)
 
+    def execute_stmt(self, statement):
+        self.cursor.execute(statement)
+
     def qry_stmt(self, statement, values):
         self.cursor.execute(statement, values)
+        return self.cursor.fetchall()
+
+    def qry_stmt(self, statement):
+        self.cursor.execute(statement)
         return self.cursor.fetchall()
 
     def close(self):
@@ -38,5 +45,6 @@ if __name__ == "__main__":
         username="facharbeit",
         password="PhVS_-T0nNc7*K3]",
     )
-    con.execute_stmt("CREATE TABLE IF NOT EXISTS test(`test` INT);", "")
+    con.connect()
+    con.execute_stmt("CREATE TABLE IF NOT EXISTS test(`test` INT);")
     con.close()
