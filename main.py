@@ -1,18 +1,57 @@
-import numpy as np
-import matplotlib.pyplot as mlp
+import os, sys, sqlite3
 
-A = float(input("Enter Amplifier: "))
-L = float(input("Enter Wave Frequenz: "))
-x = np.arange(0, 10, 0.01)
-print(x)
+# Existenz feststellen
+if os.path.exists("Saatgut.db"):
+    print("Datei bereits vorhanden")
+    sys.exit(0)
 
-try:
-    y = A*np.cos((2*np.pi/2)*x)
-    print(y)
-except:
-    print("Calculation failed. Please Enter vaild Arguments")
+# Verbindung zur Datenbank erzeugen
+connection = sqlite3.connect("Saatgut.db")
 
-mlp.plot(x, y)
-mlp.show()
+# Datensatz-Cursor erzeugen
+cursor = connection.cursor()
 
-https://www.youtube.com/watch?v=9WZM68aVnGk
+# Datenbanktabelle erzeugen
+sql = "CREATE TABLE saat(" \
+      "name TEXT, " \
+      "wachszeit FLOAT, " \
+      "kornabstand INTEGER, " \
+      "reihenabstand INTEGER, "
+cursor.execute(sql)
+
+# Datensatz erzeugen
+sql = "INSERT INTO saat VALUES('Mais', 16, 10, 60)"
+cursor.execute(sql)
+connection.commit()
+
+# Datensatz erzeugen
+sql = "INSERT INTO saat VALUES('Weizen', 4, 22, 22)"
+cursor.execute(sql)
+connection.commit()
+
+# Verbindung beenden
+connection.close()
+
+input("Please Press Enter to continue!")
+
+
+# Verbindung, Cursor
+connection = sqlite3.connect("Saatgut.db")
+cursor = connection.cursor()
+
+# SQL-Abfrage
+sql = "SELECT * FROM saat"
+
+# Kontrollausgabe der SQL-Abfrage
+print(sql)
+
+# Absenden der SQL-Abfrage
+# Empfang des Ergebnisses
+cursor.execute(sql)
+
+# Ausgabe des Ergebnisses
+for dsatz in cursor:
+    print(dsatz[0], dsatz[1], dsatz[2], dsatz[3])
+
+# Verbindung beenden
+connection.close()
