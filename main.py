@@ -1,4 +1,5 @@
 import os, sys, sqlite3
+import saaterstellung as saE
 
 def sven():
     input("Please Press Enter to continue!")
@@ -51,9 +52,16 @@ cursor.execute(sql)
 connection.commit()
 
 # Datensatz erzeugen
-sql = "INSERT INTO saat VALUES('Weizen', 4, 22, 22)"
-cursor.execute(sql)
-connection.commit()
+#sql = "INSERT INTO saat VALUES('Weizen', 4, 22, 22)"
+#cursor.execute(sql)
+#connection.commit()
+
+name = input("Name: ")
+wachszeit = input("Wachszeit: ")
+kornabstand = input("Kornabstand: ")
+reihenabstand = input("Reihenabstand: ")
+saE.create(name, wachszeit, kornabstand, reihenabstand)
+
 
 # Verbindung beenden
 connection.close()
