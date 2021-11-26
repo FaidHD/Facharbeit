@@ -3,7 +3,7 @@ import os
 
 
 
-def create(name, wachzeit, kornabstand, reihenabstand):
+def create(name, wachszeit, kornabstand, reihenabstand):
     if os.path.exists("Saatgut.db"):
         # Verbindung zur Datenbank erzeugen
         connection = sqlite3.connect("Saatgut.db")
