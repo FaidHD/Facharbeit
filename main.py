@@ -8,7 +8,7 @@ def SeedInput():
     wachszeit = int(input("Wachszeit: "))
     kornabstand = int(input("Kornabstand: "))
     reihenabstand = int(input("Reihenabstand: "))
-    return (saE.create(name, wachszeit, kornabstand, reihenabstand))
+    saE.create(name, wachszeit, kornabstand, reihenabstand)
 
 
 def sven():
@@ -40,7 +40,7 @@ def start():
     if command == 1:
         sven()
     elif command == 2:
-        print(SeedInput())
+        SeedInput()
         start()
 
     elif command == 3:
@@ -48,7 +48,7 @@ def start():
             os.remove("Saatgut.db")
         except:
             print("No old Database found, creating new one")
-        print(cDB.Database())
+        cDB.Database()
         start()
     else:
         print("please Enter a Valid Number. Press Enter to try again.")
@@ -60,7 +60,7 @@ if os.path.exists("Saatgut.db"):
     print("Database already created!")
     start()
 else:
-    print(cDB.Database())
+    cDB.Database()
     start()
 
 
