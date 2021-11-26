@@ -1,5 +1,31 @@
 import os, sys, sqlite3
 
+def sven():
+    input("Please Press Enter to continue!")
+
+
+    # Verbindung, Cursor
+    connection = sqlite3.connect("Saatgut.db")
+    cursor = connection.cursor()
+
+    # SQL-Abfrage
+    sql = "SELECT * FROM saat"
+
+    # Kontrollausgabe der SQL-Abfrage
+    print(sql)
+
+    # Absenden der SQL-Abfrage
+    # Empfang des Ergebnisses
+    cursor.execute(sql)
+
+    # Ausgabe des Ergebnisses
+    for dsatz in cursor:
+        print(dsatz[0], dsatz[1], dsatz[2], dsatz[3])
+
+    # Verbindung beenden
+    connection.close()
+    sys.exit(0)
+    
 # Existenz feststellen
 if os.path.exists("Saatgut.db"):
     print("Datei bereits vorhanden")
@@ -31,29 +57,3 @@ connection.commit()
 
 # Verbindung beenden
 connection.close()
-
-def sven():
-    input("Please Press Enter to continue!")
-
-
-    # Verbindung, Cursor
-    connection = sqlite3.connect("Saatgut.db")
-    cursor = connection.cursor()
-
-    # SQL-Abfrage
-    sql = "SELECT * FROM saat"
-
-    # Kontrollausgabe der SQL-Abfrage
-    print(sql)
-
-    # Absenden der SQL-Abfrage
-    # Empfang des Ergebnisses
-    cursor.execute(sql)
-
-    # Ausgabe des Ergebnisses
-    for dsatz in cursor:
-        print(dsatz[0], dsatz[1], dsatz[2], dsatz[3])
-
-    # Verbindung beenden
-    connection.close()
-    sys.exit(0)
