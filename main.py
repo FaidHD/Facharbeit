@@ -1,67 +1,92 @@
 import os, sys, sqlite3
-import saaterstellung as saE
 import createDataBase as cDB
+import database as db
+import command as cmd
+import saaterstellung as sad
+
+connection = db.Connection(
+    hostname="db.faidhd.de",
+    database="facharbeit",
+    username="facharbeit",
+    password="PhVS_-T0nNc7*K3]",
+)
 
 
-def SeedInput():
-    name = input("Name: ")
-    wachszeit = int(input("Wachszeit: "))
-    kornabstand = int(input("Kornabstand: "))
-    reihenabstand = int(input("Reihenabstand: "))
-    saE.create(name, wachszeit, kornabstand, reihenabstand)
+class TestCommand(cmd.Command):
+
+    def __init__(self, name):
+        self.name = name
+        super(type(name), "simple test command").__init__()
+
+    def call(self, args):
+        sad.create(name="test", wachszeit=16, kornabstand=10, reihenabstand=60)
 
 
-def sven():
-    # Verbindung, Cursor
-    connection = sqlite3.connect("Saatgut.db")
-    cursor = connection.cursor()
+class Main:
 
-    # SQL-Abfrage
-    sql = "SELECT * FROM saat"
+    def __init__(self):
+        self.connection = connection
+        self.command_manager = None
 
-    cursor.execute(sql)
+    def start(self):
+        self.connection.execute_stmt(
+            "CREATE TABLE IF NOT EXISTS saat(`name` VARCHAR(255), `wachszeit` INTEGER NOT NULL, `kornabstand` INTEGER NOT NULL, `reihenabstand` INTEGER NULL, PRIMARY KEY(`name`));")
+        self.command_manager = cmd.CommandManager()
+        self.command_manager.register_command(TestCommand(name="test"))
+        self.command_manager.wait_for_command_input()
 
-    # Ausgabe des Ergebnisses
-    for dsatz in cursor:
-        print(dsatz[0], dsatz[1], dsatz[2], dsatz[3])
+    # def seed_input(self):
+    #     name = input("Name: ")
+    #     wachszeit = int(input("Wachszeit: "))
+    #     kornabstand = int(input("Kornabstand: "))
+    #     reihenabstand = int(input("Reihenabstand: "))
+    #     saE.create(name, wachszeit, kornabstand, reihenabstand)
+    #
+    # def sven(self):
+    #     # Verbindung, Cursor
+    #     connection = sqlite3.connect("Saatgut.db")
+    #     cursor = connection.cursor()
+    #
+    #     # SQL-Abfrage
+    #     sql = "SELECT * FROM saat"
+    #
+    #     cursor.execute(sql)
+    #
+    #     # Ausgabe des Ergebnisses
+    #     for dsatz in cursor:
+    #         print(dsatz[0], dsatz[1], dsatz[2], dsatz[3])
+    #
+    #     # Verbindung beenden
+    #     connection.close()
+    #     print("Press Enter to continue!")
+    #     input()
+    #     self.start()
+    #
+    # def start(self):
+    #     print("Enter 1 to show currently saved seeds")
+    #     print("Enter 2 to add a new seed to the Database")
+    #     print("Enter 3 to delete the Database and create a new one")
+    #     print("Enter 4 to quit program")
+    #     command = int(input("Please Enter One of the Numbers: "))
+    #
+    #     if command == 1:
+    #         self.sven()
+    #     elif command == 2:
+    #         print(self.seed_input())
+    #         self.start()
+    #
+    #     elif command == 3:
+    #         try:
+    #             os.remove("Saatgut.db")
+    #         except:
+    #             print("No old Database found, creating new one")
+    #         cDB.Database()
+    #         self.start()
+    #     else:
+    #         print("please Enter a Valid Number. Press Enter to try again.")
+    #         input()
 
-    # Verbindung beenden
-    connection.close()
-    print("Press Enter to continue!")
-    input()
-    start()
 
-def start():
-    print("Enter 1 to show currently saved seeds")
-    print("Enter 2 to add a new seed to the Database")
-    print("Enter 3 to delete the Database and create a new one")
-    print("Enter 4 to quit program")
-    command = int(input("Please Enter One of the Numbers: "))
-
-    if command == 1:
-        sven()
-    elif command == 2:
-        print(SeedInput())
-        start()
-
-    elif command == 3:
-        try:
-            os.remove("Saatgut.db")
-        except:
-            print("No old Database found, creating new one")
-        cDB.Database()
-        start()
-    else:
-        print("please Enter a Valid Number. Press Enter to try again.")
-        input()
-
-
-# Existenz feststellen
-if os.path.exists("Saatgut.db"):
-    print("Database already created!")
-    start()
-else:
-    cDB.Database()
-    start()
-
-
+if __name__ == "__main__":
+    main = Main()
+    main.start()
