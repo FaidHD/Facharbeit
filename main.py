@@ -35,6 +35,7 @@ def start():
     print("Enter 1 to show currently saved seeds")
     print("Enter 2 to add a new seed to the Database")
     print("Enter 3 to delete the Database and create a new one")
+    print("Enter 4 to quit program")
     command = int(input("Please Enter One of the Numbers: "))
 
     if command == 1:
