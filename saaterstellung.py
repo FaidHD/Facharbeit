@@ -1,4 +1,4 @@
-import sqlite3 as sql
+import sqlite3
 
 # Verbindung zur Datenbank erzeugen
 connection = sqlite3.connect("Saatgut.db")
