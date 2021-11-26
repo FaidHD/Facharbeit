@@ -14,9 +14,9 @@ cursor = connection.cursor()
 # Datenbanktabelle erzeugen
 sql = "CREATE TABLE saat(" \
       "name TEXT PRIMARY KEY, " \
-      "wachszeit FLOAT, " \
-      "kornabstand INTEGER, " \
-      "reihenabstand INTEGER "
+      "wachszeit INTEGER NOT NULL, " \
+      "kornabstand INTEGER NOT NULL, " \
+      "reihenabstand INTEGER NULL)"
 cursor.execute(sql)
 
 # Datensatz erzeugen
