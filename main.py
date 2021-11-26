@@ -60,7 +60,7 @@ name = input("Name: ")
 wachszeit = input("Wachszeit: ")
 kornabstand = input("Kornabstand: ")
 reihenabstand = input("Reihenabstand: ")
-saE.create(name, wachszeit, kornabstand, reihenabstand)
+saE.create(name, wachszeit, kornabstand, reihenabstand, connection, cursor)
 
 
 # Verbindung beenden
