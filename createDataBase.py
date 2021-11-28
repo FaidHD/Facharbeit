@@ -16,4 +16,4 @@ class Database:
         self.sql = "CREATE TABLE saat(name TEXT PRIMARY KEY, wachszeit INTEGER NOT NULL, kornabstand INTEGER NOT NULL, reihenabstand INTEGER NULL)"
         self.cursor.execute(self.sql)
         self.connection.close()
-        return ("DataBase created")
+
