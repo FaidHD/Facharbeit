@@ -1,8 +1,7 @@
-import os, sys, sqlite3
-import createDataBase as cDB
 import database as db
 import command as cmd
 import saaterstellung as sad
+import menu
 
 connection = db.Connection(
     hostname="db.faidhd.de",
@@ -31,18 +30,14 @@ class Main:
     def start(self):
         self.connection.execute_stmt(
             "CREATE TABLE IF NOT EXISTS saat(`name` VARCHAR(255), `wachszeit` INTEGER NOT NULL, `kornabstand` INTEGER NOT NULL, `reihenabstand` INTEGER NULL, PRIMARY KEY(`name`));")
-        self.command_manager = cmd.CommandManager()
-        self.command_manager.register_command(TestCommand(name="test"))
-        self.command_manager.wait_for_command_input()
+        menu.Menu()
 
-    # def seed_input(self):
-    #     name = input("Name: ")
-    #     wachszeit = int(input("Wachszeit: "))
-    #     kornabstand = int(input("Kornabstand: "))
-    #     reihenabstand = int(input("Reihenabstand: "))
-    #     saE.create(name, wachszeit, kornabstand, reihenabstand)
-    #
-    # def sven(self):
+        # self.command_manager = cmd.CommandManager()
+        # self.command_manager.register_command(TestCommand(name="test"))
+        # self.command_manager.wait_for_command_input()
+
+
+    # def show_seeds(self):
     #     # Verbindung, Cursor
     #     connection = sqlite3.connect("Saatgut.db")
     #     cursor = connection.cursor()
@@ -61,30 +56,6 @@ class Main:
     #     print("Press Enter to continue!")
     #     input()
     #     self.start()
-    #
-    # def start(self):
-    #     print("Enter 1 to show currently saved seeds")
-    #     print("Enter 2 to add a new seed to the Database")
-    #     print("Enter 3 to delete the Database and create a new one")
-    #     print("Enter 4 to quit program")
-    #     command = int(input("Please Enter One of the Numbers: "))
-    #
-    #     if command == 1:
-    #         self.sven()
-    #     elif command == 2:
-    #         print(self.seed_input())
-    #         self.start()
-    #
-    #     elif command == 3:
-    #         try:
-    #             os.remove("Saatgut.db")
-    #         except:
-    #             print("No old Database found, creating new one")
-    #         cDB.Database()
-    #         self.start()
-    #     else:
-    #         print("please Enter a Valid Number. Press Enter to try again.")
-    #         input()
 
 
 if __name__ == "__main__":

@@ -3,16 +3,19 @@ import main
 
 class create:
 
-    def __init__(self, name, wachszeit, kornabstand, reihenabstand):
+    def __init__(self):
         self.con = main.connection
 
-        self.name = name
-        self.wachszeit = wachszeit
-        self.kornabstand = kornabstand
-        self.reihenabstand = reihenabstand
+        self.name = input("Name: ")
+        self.wachszeit = input("Wachszeit: ")
+        self.kornabstand = input("Kornabstand: ")
+        self.reihenabstand = input("Reihenabstand: ")
+        print(self.name, self.wachszeit, self.kornabstand, self.reihenabstand)
+        self.data = (self.name, self.wachszeit, self.kornabstand, self.reihenabstand)
+        self.stmt = ("INSERT INTO `saat`(`name`, `wachszeit`, `kornabstand`, `reihenabstand`) VALUES (%s,%s,%s,%s)")
         self.save_data()
 
     def save_data(self):
-        main.connection.execute_stmt(
-            "INSERT INTO saat(name, wachszeit, kornabstand, reihenabstand) VALUES('test', 16, 10, 60)")
+        print(self.stmt, self.data)
+        main.connection.execute_stmt(self.stmt, self.data)
         return ("New seed added to Database")
