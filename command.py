@@ -41,7 +41,6 @@ class CreateSeedCommand(Command):
         super().__init__("createSeed")
 
     def call(self, args):
-        print(args)
         if len(args) == 4:
             try:
                 name = args[0]
@@ -49,6 +48,7 @@ class CreateSeedCommand(Command):
                 kornabstand = int(args[2])
                 reihenabstand = int(args[3])
                 sad.Create(name, wachszeit, kornabstand, reihenabstand)
+                print(f"Die Saat {name} wurde erfolgreich erstellt")
             except ValueError:
                 print("Bitte benutze: createSeed <Name> <Wachszeit> <Kornabstand> <Reihenabstand>")
         else:
@@ -78,6 +78,5 @@ class DeleteSeedCommand(Command):
         if len(args) != 1:
             print("Bitte benutze: deleteSeed <Name>")
             return
-        arg = (args[0],)
-        main.connection.execute_stmt("DELETE FROM saat WHERE name= %s", arg)
+        main.connection.execute_stmt("DELETE FROM saat WHERE name= %s", (args[0],))
         print(f"{args[0]} wurde aus der Datenbank gelöscht.")
