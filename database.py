@@ -15,23 +15,22 @@ class Connection:
             password=self.password
         )
 
-    def execute_stmt(self, statement, values):
-        self.connection.cursor().execute(statement, values)
+    def execute_stmt(self, statement, values=None):
+        cursor = self.connection.cursor()
+        if values is not None:
+            cursor.execute(statement, values)
+        else:
+            cursor.execute(statement)
         self.connection.commit()
 
-    def execute_stmt(self, statement):
-        self.connection.cursor().execute(statement)
-        self.connection.commit()
-
-    def qry_stmt(self, statement, values):
-        self.connection.cursor().execute(statement, values)
-        self.connection.commit()
-        return self.connection.cursor().fetchall()
-
-    def qry_stmt(self, statement):
-        self.connection.cursor().execute(statement)
-        self.connection.commit()
-        return self.connection.cursor().fetchall()
+    def qry_stmt(self, statement, values=None):
+        cursor = self.connection.cursor()
+        if values is not None:
+            cursor.execute(statement, values)
+        else:
+            cursor.execute(statement)
+        result = cursor.fetchall()
+        return result
 
     def close(self):
         self.connection.close()
