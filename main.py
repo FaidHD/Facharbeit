@@ -1,7 +1,5 @@
 import database as db
 import command as cmd
-import saaterstellung as sad
-import menu
 
 connection = db.Connection(
     hostname="db.faidhd.de",
@@ -23,10 +21,11 @@ class Main:
         # menu.Menu()
 
         self.command_manager = cmd.CommandManager()
+        self.command_manager.register_command(cmd.HelpCommand(self))
         self.command_manager.register_command(cmd.CreateSeedCommand())
         self.command_manager.register_command(cmd.ShowSeedsCommand())
         self.command_manager.register_command(cmd.DeleteSeedCommand())
-        self.command_manager.register_command(cmd.OpenMenu())
+        self.command_manager.register_command(cmd.OpenMenu(self))
         self.command_manager.wait_for_command_input()
 
     # def show_seeds(self):
