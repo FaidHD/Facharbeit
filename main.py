@@ -26,6 +26,7 @@ class Main:
         self.command_manager.register_command(cmd.CreateSeedCommand())
         self.command_manager.register_command(cmd.ShowSeedsCommand())
         self.command_manager.register_command(cmd.DeleteSeedCommand())
+        self.command_manager.register_command(cmd.OpenMenu())
         self.command_manager.wait_for_command_input()
 
     # def show_seeds(self):

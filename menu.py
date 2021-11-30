@@ -6,6 +6,7 @@ import saaterstellung as sad
 class Menu:
 
     def __init__(self):
+        self.command = None
         self.menu()
 
     def menu(self):

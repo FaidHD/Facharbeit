@@ -1,5 +1,6 @@
 import saaterstellung as sad
 import main
+import menu
 
 
 class CommandManager:
@@ -22,8 +23,8 @@ class CommandManager:
         for command in self.registered_commands:
             if command.name == name:
                 command.call(args)
-                self.wait_for_command_input()
                 break
+        self.wait_for_command_input()
 
 
 class Command:
@@ -80,3 +81,16 @@ class DeleteSeedCommand(Command):
             return
         main.connection.execute_stmt("DELETE FROM saat WHERE name= %s", (args[0],))
         print(f"{args[0]} wurde aus der Datenbank gelöscht.")
+
+
+class OpenMenu(Command):
+
+    def __init__(self):
+        super().__init__("menu")
+
+    def call(self, args):
+        if len(args) != 0:
+            print("Bitte benutze: menu")
+            return
+
+        menu.Menu()
