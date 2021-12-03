@@ -1,5 +1,6 @@
 import saaterstellung as sad
 import main
+import getData as gD
 
 
 class Menu:
@@ -28,15 +29,8 @@ class Menu:
                 print(r[0], r[1], r[2], r[3])
             self.menu(main_instance)
         elif self.command == 2:
-            print("Bitte gib den Namen der Kornart an, die du anlegen möchtest")
-            name = input("» ")
-            print("Bitte gib die Wachszeit der Kornart an, die du anlegen möchtest")
-            grow_time = int(input("» "))
-            print("Bitte gib den Kornabstand der Kornart an, die du anlegen möchtest")
-            seed_space = int(input("» "))
-            print("Bitte gib den Reihenabstand der Kornart an, die du anlegen möchtest")
-            row_space = int(input("» "))
-            sad.Create(name, grow_time, seed_space, row_space)
+            data = gd.seedData()
+            sad.Create(data[0], data[1], data[2], data[3])
             print(f"Das Saatgut {name} wurde erfolgreich erstellt")
             self.menu(main_instance)
         elif self.command == 3:

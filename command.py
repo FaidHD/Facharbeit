@@ -17,7 +17,7 @@ class CommandManager:
         args = []
         if name != gib_was_ein:
             args = gib_was_ein.replace(name + " ", "").split(" ")
-        if name.lower() == "stop":
+        if name.lower() == "stop" or name.lower() == "quit":
             main.stop()
             return
 
