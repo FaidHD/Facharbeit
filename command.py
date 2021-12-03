@@ -99,8 +99,12 @@ class DeleteSeedCommand(Command):
         if len(args) != 1:
             print("Bitte benutze: deleteSeed <Name>")
             return
-        main.connection.execute_stmt("DELETE FROM saat WHERE name= %s", (args[0],))
-        print(f"{args[0]} wurde aus der Datenbank gelöscht.")
+        if args[0] == "all":
+            main.connection.execute_stmt("DELETE FROM saat")
+            print("Alle Einträge gelöscht")
+        else:
+            main.connection.execute_stmt("DELETE FROM saat WHERE name= %s", (args[0],))
+            print(f"{args[0]} wurde aus der Datenbank gelöscht.")
 
 
 class OpenMenu(Command):
