@@ -1,6 +1,10 @@
 class GetData:
 
     def __init__(self):
+        self.name = ""
+        self.grow_time = ""
+        self.seed_space = ""
+        self.row_space = ""
         pass
 
     def seedData(self):

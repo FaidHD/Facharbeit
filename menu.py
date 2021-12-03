@@ -29,9 +29,10 @@ class Menu:
                 print(r[0], r[1], r[2], r[3])
             self.menu(main_instance)
         elif self.command == 2:
-            data = gd.GetData.seedData()
-            sad.Create(data[0], data[1], data[2], data[3])
-            print(f"Das Saatgut {name} wurde erfolgreich erstellt")
+            data = gD.GetData()
+            values = data.seedData()
+            sad.Create(values[0], values[1], values[2], values[3])
+            print(f"Das Saatgut {values[0]} wurde erfolgreich erstellt")
             self.menu(main_instance)
         elif self.command == 3:
             print("")
