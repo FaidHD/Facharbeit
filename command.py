@@ -1,4 +1,5 @@
 import saaterstellung as sad
+import growCalculation as gC
 import main
 import menu
 
@@ -105,6 +106,35 @@ class DeleteSeedCommand(Command):
         else:
             main.connection.execute_stmt("DELETE FROM saat WHERE name= %s", (args[0],))
             print(f"{args[0]} wurde aus der Datenbank gelöscht.")
+
+
+class ShowFieldsCommand(Command):
+    def __init__(self):
+        super().__init__("showFields", "Zeige alle verfügbaren Felder an")
+
+    def call(self, args):
+        if len(args) != 0:
+            print("Bitte benutze: showFields")
+            return
+        result = main.connection.qry_stmt("SELECT * FROM fields")
+        for r in result:
+            print(r[0], r[1], r[2], r[3])
+
+
+class GrowCalculation(Command):
+    def __init__(self):
+        super().__init__("growCalculation", "Führe Saat und Felder berechnung durch")
+
+    def call(self, args):
+        if len(args) != 2:
+            print("Bitte benutze: growCalculation <FeldID> <SaatgutName>")
+            return
+        else:
+            #try:
+            seedCount = gC.GrowCalculation(args[0], args[1]).calcCount()
+            print(f"Auf dieses Feld passen {seedCount} der gewählen Saatart")
+            #except:
+                #print("Berechnung Fehlgeschlagen, bitte versuchen Sie es erneut")
 
 
 class OpenMenu(Command):
