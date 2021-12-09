@@ -27,7 +27,7 @@ class GetData:
 
     def seeds(self, seed):
         print(f"versuche Daten für {seed} zu erhalten")
-        self.result = main.connection.qry_stmt(f"SELECT {seed} FROM saat")
+        self.result = main.connection.qry_stmt(f"SELECT * FROM saat WHERE name={seed}")
         print(f"Erhaltene Daten: {self.result}")
         return self.result
 
