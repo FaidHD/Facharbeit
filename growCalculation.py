@@ -17,6 +17,7 @@ class GrowCalculation:
 
     def calcCount(self):
         print(self.seed)
+        print(self.id)
         self.reihenabstand = getData.GetData().seeds(self.seed)[3]
         self.fieldWidth = getData.GetData().Field(self.id)[2]
         self.kornabstand = getData.GetData().seeds(self.seed)[2]

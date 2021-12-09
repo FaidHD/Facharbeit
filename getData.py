@@ -26,11 +26,13 @@ class GetData:
         return self.name, self.grow_time, self.seed_space, self.row_space
 
     def seeds(self, seed):
+        print(f"versuche Daten für {seed} zu erhalten")
         self.result = main.connection.qry_stmt(f"SELECT {seed} FROM saat")
-        print(self.result)
+        print(f"Erhaltene Daten: {self.result}")
         return self.result
 
-    def Field(self, id):
-        self.result = main.connection.qry_stmt(f"SELECT {id} FROM fields")
-        print(self.result)
+    def Field(self, nummer):
+        print(f"versuche Daten für Feld {nummer} zu erhalten")
+        self.result = main.connection.qry_stmt(f"SELECT {nummer} FROM fields")
+        print(f"Erhaltene Daten: {self.result}")
         return self.result
