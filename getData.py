@@ -28,11 +28,25 @@ class GetData:
     def seeds(self, seed):
         print(f"versuche Daten für {seed} zu erhalten")
         self.result = main.connection.qry_stmt("SELECT * FROM saat WHERE name = %s;", (seed,))
+        self.result = str(self.result).replace("(", "")
+        self.result = str(self.result).replace(")", "")
+        self.result = str(self.result).replace("'", "")
+        self.result = str(self.result).replace(" ", "")
+        self.result = str(self.result).replace("[", "")
+        self.result = str(self.result).replace("]", "")
+        self.result = str(self.result).split(",")
         print(f"Erhaltene Daten: {self.result}")
         return self.result
 
     def Field(self, nummer):
         print(f"versuche Daten für Feld {nummer} zu erhalten")
-        self.result = main.connection.qry_stmt(f"SELECT {nummer} FROM fields")
+        self.result = main.connection.qry_stmt("SELECT * FROM fields WHERE id = %s;", (nummer,))
+        self.result = str(self.result).replace("(", "")
+        self.result = str(self.result).replace(")", "")
+        self.result = str(self.result).replace("'", "")
+        self.result = str(self.result).replace(" ", "")
+        self.result = str(self.result).replace("[", "")
+        self.result = str(self.result).replace("]", "")
+        self.result = str(self.result).split(",")
         print(f"Erhaltene Daten: {self.result}")
         return self.result

@@ -130,11 +130,11 @@ class GrowCalculation(Command):
             print("Bitte benutze: growCalculation <FeldID> <SaatgutName>")
             return
         else:
-            #try:
-            seedCount = gC.GrowCalculation(args[0], args[1]).calcCount()
-            print(f"Auf dieses Feld passen {seedCount} der gewählen Saatart")
-            #except:
-                #print("Berechnung Fehlgeschlagen, bitte versuchen Sie es erneut")
+            try:
+                seedCount = gC.GrowCalculation(args[0], args[1]).calcCount()
+                print(f"Auf dieses Feld passen {seedCount} der gewählen Saatart")
+            except:
+                print("Berechnung Fehlgeschlagen, bitte versuchen Sie es erneut")
 
 
 class OpenMenu(Command):
