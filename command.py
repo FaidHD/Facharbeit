@@ -133,8 +133,7 @@ class GrowCalculation(Command):
         else:
             try:
                 seedCount, xCount, yCount = gC.GrowCalculation(args[0], args[1]).calcCount()
-                cO.Output([f"Es können {xCount} Reihen mit jeweils {yCount} Pflanzen gesät werden"]).printString()
-                cO.Output([f"Auf dieses Feld passen insgesamt {seedCount} der gewählen Saatart"]).printString()
+                cO.Output([f"Es können {xCount} Reihen mit jeweils {yCount} Pflanzen gesät werden", f"Auf dieses Feld passen insgesamt {seedCount} der gewählen Saatart"]).printString()
             except:
                 cO.Output(["Berechnung Fehlgeschlagen, bitte versuchen Sie es erneut"]).printString()
 
