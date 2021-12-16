@@ -22,12 +22,12 @@ class Main:
         self.command_manager = cmd.CommandManager()
         self.command_manager.register_command(cmd.HelpCommand(self))
         self.command_manager.register_command(cmd.CreateSeedCommand())
-        self.command_manager.register_command(cmd.createFieldCommand())
+        self.command_manager.register_command(cmd.CreateFieldCommand())
         self.command_manager.register_command(cmd.ShowSeedsCommand())
         self.command_manager.register_command(cmd.DeleteSeedCommand())
         self.command_manager.register_command(cmd.ShowFieldsCommand())
-        self.command_manager.register_command(cmd.GrowCalculation())
-        self.command_manager.register_command(cmd.OpenMenu(self))
+        self.command_manager.register_command(cmd.GrowCalculationCommand())
+        self.command_manager.register_command(cmd.OpenMenuCommand(self))
         self.command_manager.wait_for_command_input()
 
 

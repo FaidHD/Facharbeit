@@ -79,7 +79,7 @@ class CreateSeedCommand(Command):
             cO.Output(["Bitte benutze: createSeed <Name> <Wachszeit> <Kornabstand> <Reihenabstand>"]).printString()
 
 
-class createFieldCommand(Command):
+class CreateFieldCommand(Command):
     def __init__(self):
         super().__init__("createField", "Erstelle ein neues Feld")
 
@@ -140,7 +140,7 @@ class ShowFieldsCommand(Command):
         cO.Output(strings).printString()
 
 
-class GrowCalculation(Command):
+class GrowCalculationCommand(Command):
     def __init__(self):
         super().__init__("growCalculation", "Führe Saat und Felder berechnung durch")
 
@@ -156,7 +156,7 @@ class GrowCalculation(Command):
                 cO.Output(["Berechnung Fehlgeschlagen, bitte versuchen Sie es erneut"]).printString()
 
 
-class OpenMenu(Command):
+class OpenMenuCommand(Command):
 
     def __init__(self, main_instance):
         super().__init__("menu", "Öffne das Menu")
