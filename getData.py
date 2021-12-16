@@ -25,6 +25,10 @@ class GetData:
         self.row_space = int(input("» "))
         return self.name, self.grow_time, self.seed_space, self.row_space
 
+    def Fields(self):
+        self.result = main.connection.qry_stmt("SELECT * FROM fields")
+        return self.result
+    
     def seeds(self, seed):
         print(f"versuche Daten für {seed} zu erhalten")
         self.result = main.connection.qry_stmt("SELECT * FROM saat WHERE name = %s;", (seed,))
