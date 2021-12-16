@@ -28,6 +28,10 @@ class GetData:
     def Fields(self):
         self.result = main.connection.qry_stmt("SELECT * FROM fields")
         return self.result
+
+    def Saat(self):
+        self.result = main.connection.qry_stmt("SELECT * FROM saat")
+        return self.result
     
     def seeds(self, seed):
         print(f"versuche Daten für {seed} zu erhalten")

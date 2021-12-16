@@ -34,12 +34,31 @@ class Menu:
             sad.Create(data[0], data[1], data[2], data[3])
             print(f"Das Saatgut {data[0]} wurde erfolgreich erstellt")
             self.menu(main_instance)
+
         elif self.command == 3:
+
             print("Bitte wähle eins dieser Felder und gib die entsprechende ID ein:")
             print("-------------------------------------")
             for i in gD.GetData().Fields():
                 print(f"Id: {i[0]} | Breite: {i[2]} | Höhe: {i[1]}")
             print("-------------------------------------")
+            FieldID = int(input("» "))
+
+            print("Bitte wähle eins der Saatgüter und gib den Namen ein:")
+            print("-------------------------------------")
+            for i in gD.GetData().Saat():
+                print(f"Name: {i[0]} | Wachzeit: {i[1]} | Kornabstand: {i[2]} | Reihenabstand: {i[3]}")
+            print("-------------------------------------")
+            SeedName = int(input("» "))
+
+            try:
+                seedCount, xCount, yCount = gC.GrowCalculation(FieldID, SeedName).calcCount()
+                print(f"Es können {xCount} Reihen mit jeweils {yCount} Pflanzen gesät werden")
+                print(f"Auf dieses Feld passen insgesamt {seedCount} der gewählen Saatart")
+            except:
+                print("Berechnung Fehlgeschlagen, bitte versuchen Sie es erneut")
+
+
             self.menu(main_instance)
         elif self.command == 4:
             print("")
