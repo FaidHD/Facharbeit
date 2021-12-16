@@ -19,4 +19,4 @@ class GrowCalculation:
         self.yCount = int(self.fieldData[1]) / int(self.seedData[2])
         self.xCount = int(self.fieldData[2]) / int(self.seedData[3])
         self.seedCount = int(self.xCount * self.yCount)
-        return self.seedCount, self.xCount, self.yCount
+        return self.seedCount, int(self.xCount), int(self.yCount)
