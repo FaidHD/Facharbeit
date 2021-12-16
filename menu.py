@@ -51,12 +51,12 @@ class Menu:
             print("-------------------------------------")
             SeedName = input("» ")
 
-            try:
-                seedCount, xCount, yCount = gC.GrowCalculation(FieldID, SeedName).calcCount()
-                print(f"Es können {xCount} Reihen mit jeweils {yCount} Pflanzen gesät werden")
-                print(f"Auf dieses Feld passen insgesamt {seedCount} der gewählen Saatart")
-            except:
-                print("Berechnung Fehlgeschlagen, bitte versuchen Sie es erneut")
+            #try:
+            seedCount, xCount, yCount = gC.GrowCalculation(FieldID, SeedName).calcCount()
+            print(f"Es können {xCount} Reihen mit jeweils {yCount} Pflanzen gesät werden")
+            print(f"Auf dieses Feld passen insgesamt {seedCount} der gewählen Saatart")
+            #except:
+                #print("Berechnung Fehlgeschlagen, bitte versuchen Sie es erneut")
 
 
             self.menu(main_instance)
