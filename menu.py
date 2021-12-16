@@ -49,7 +49,7 @@ class Menu:
             for i in gD.GetData().Saat():
                 print(f"Name: {i[0]} | Wachzeit: {i[1]} | Kornabstand: {i[2]} | Reihenabstand: {i[3]}")
             print("-------------------------------------")
-            SeedName = int(input("» "))
+            SeedName = input("» ")
 
             try:
                 seedCount, xCount, yCount = gC.GrowCalculation(FieldID, SeedName).calcCount()
