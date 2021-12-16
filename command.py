@@ -1,5 +1,6 @@
 import saaterstellung as sad
 import growCalculation as gC
+import createOutput as cO
 import main
 import menu
 
@@ -132,10 +133,10 @@ class GrowCalculation(Command):
         else:
             try:
                 seedCount, xCount, yCount = gC.GrowCalculation(args[0], args[1]).calcCount()
-                print(f"Es können {xCount} Reihen mit jeweils {yCount} Pflanzen gesät werden")
-                print(f"Auf dieses Feld passen insgesamt {seedCount} der gewählen Saatart")
+                gO.Output(f"Es können {xCount} Reihen mit jeweils {yCount} Pflanzen gesät werden").printString()
+                gO.Output(f"Auf dieses Feld passen insgesamt {seedCount} der gewählen Saatart").printString()
             except:
-                print("Berechnung Fehlgeschlagen, bitte versuchen Sie es erneut")
+                gO.Output("Berechnung Fehlgeschlagen, bitte versuchen Sie es erneut").printString()
 
 
 class OpenMenu(Command):
@@ -146,7 +147,7 @@ class OpenMenu(Command):
 
     def call(self, args):
         if len(args) != 0:
-            print("Bitte benutze: menu")
+            gO.Output("Bitte benutze: menu").printString()
             return
 
         menu.Menu(self.main_instance)
