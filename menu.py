@@ -37,7 +37,7 @@ class Menu:
         elif self.command == 3:
             print("Bitte wähle eins dieser Felder und gib die entsprechende ID ein:")
             print("-------------------------------------")
-            for i in gD.getData().Fields():
+            for i in gD.GetData().Fields():
                 print(f"Id: {i[0]} | Breite: {i[2]} | Höhe: {i[1]}")
             print("-------------------------------------")
             self.menu(main_instance)
