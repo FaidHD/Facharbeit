@@ -22,6 +22,7 @@ class Main:
         self.command_manager = cmd.CommandManager()
         self.command_manager.register_command(cmd.HelpCommand(self))
         self.command_manager.register_command(cmd.CreateSeedCommand())
+        self.command_manager.register_command(cmd.createFieldCommand())
         self.command_manager.register_command(cmd.ShowSeedsCommand())
         self.command_manager.register_command(cmd.DeleteSeedCommand())
         self.command_manager.register_command(cmd.ShowFieldsCommand())

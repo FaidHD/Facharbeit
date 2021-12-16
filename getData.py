@@ -1,4 +1,5 @@
 import main
+import createOutput as cO
 
 
 class GetData:
@@ -15,15 +16,22 @@ class GetData:
         pass
 
     def seedData(self):
-        print("Bitte gib den Namen der Kornart an, die du anlegen möchtest")
+        cO.Output(["Bitte gib den Namen der Kornart an, die du anlegen möchtest"]).printString()
         self.name = input("» ")
-        print("Bitte gib die Wachszeit der Kornart an, die du anlegen möchtest")
+        cO.Output(["Bitte gib die Wachszeit der Kornart an, die du anlegen möchtest"]).printString()
         self.grow_time = int(input("» "))
-        print("Bitte gib den Kornabstand der Kornart an, die du anlegen möchtest")
+        cO.Output(["Bitte gib den Kornabstand der Kornart an, die du anlegen möchtest"]).printString()
         self.seed_space = int(input("» "))
-        print("Bitte gib den Reihenabstand der Kornart an, die du anlegen möchtest")
+        cO.Output(["Bitte gib den Reihenabstand der Kornart an, die du anlegen möchtest"]).printString()
         self.row_space = int(input("» "))
         return self.name, self.grow_time, self.seed_space, self.row_space
+
+    def fieldData(self):
+        cO.Output(["Bitte gib die höhe des Feldes ein"]).printString()
+        self.height = int(input("» "))
+        cO.Output(["Bitte gib die Breite des Feldes ein"]).printString()
+        self.width = int(input("» "))
+        return self.height, self.width
 
     def Fields(self):
         self.result = main.connection.qry_stmt("SELECT * FROM fields")

@@ -1,4 +1,4 @@
-import saaterstellung as sad
+import erstellung as sad
 import growCalculation as gC
 import createOutput as cO
 import main
@@ -28,7 +28,7 @@ class CommandManager:
                 command.call(args)
                 self.wait_for_command_input()
                 return
-        print("Command nicht gefunden. Um eine Liste an Befehlen zu erhalten, nutze \"help\"")
+        cO.Output(["Command nicht gefunden. Um eine Liste an Befehlen zu erhalten, nutze \"help\""]).printString()
         self.wait_for_command_input()
 
     def get_commands(self):
@@ -42,7 +42,7 @@ class Command:
         self.description = description
 
     def call(self, args):
-        print("Call method from command" + self.name + " not defined")
+        cO.Output(["Call method from command" + self.name + " not defined"]).printString()
 
 
 class HelpCommand(Command):
@@ -52,10 +52,11 @@ class HelpCommand(Command):
         self.main_instance = main_instance
 
     def call(self, args):
-        print(f"stop - Beende das Programm")
+        cO.Output([f"stop - Beende das Programm"]).printString()
+        strings = []
         for command in self.main_instance.command_manager.get_commands():
-            print(f"{command.name} - {command.description}")
-            pass
+            strings.append(f"{command.name} - {command.description}")
+        cO.Output(strings).printString()
 
 
 class CreateSeedCommand(Command):
@@ -70,12 +71,25 @@ class CreateSeedCommand(Command):
                 wachszeit = int(args[1])
                 kornabstand = int(args[2])
                 reihenabstand = int(args[3])
-                sad.Create(name, wachszeit, kornabstand, reihenabstand)
-                print(f"Die Saat {name} wurde erfolgreich erstellt")
+                sad.CreateSeed(name, wachszeit, kornabstand, reihenabstand)
+                cO.Output([f"Die Saat {name} wurde erfolgreich erstellt"]).printString()
             except ValueError:
-                print("Bitte benutze: createSeed <Name> <Wachszeit> <Kornabstand> <Reihenabstand>")
+                cO.Output(["Bitte benutze: createSeed <Name> <Wachszeit> <Kornabstand> <Reihenabstand>"]).printString()
         else:
-            print("Bitte benutze: createSeed <Name> <Wachszeit> <Kornabstand> <Reihenabstand>")
+            cO.Output(["Bitte benutze: createSeed <Name> <Wachszeit> <Kornabstand> <Reihenabstand>"]).printString()
+
+
+class createFieldCommand(Command):
+    def __init__(self):
+        super().__init__("createField", "Erstelle ein neues Feld")
+
+    def call(self, args):
+        if len(args) != 2:
+            cO.Output(["Bitte benutze createField <height> <width>"]).printString()
+            return
+        else:
+            sad.CreateField(int(args[0]), int(args[1]))
+            cO.Output(["Das Feld wurde erfolgreich erstellt"]).printString()
 
 
 class ShowSeedsCommand(Command):
@@ -85,11 +99,13 @@ class ShowSeedsCommand(Command):
 
     def call(self, args):
         if len(args) != 0:
-            print("Bitte benutze: showSeeds")
+            cO.Output(["Bitte benutze: showSeeds"]).printString()
             return
         result = main.connection.qry_stmt("SELECT * FROM saat")
-        for r in result:
-            print(r[0], r[1], r[2], r[3])
+        strings = []
+        for i in result:
+            strings.append(f"Name: {i[0]} | Wachszeit: {i[1]} | Kornabstand: {i[2]} | Reihenabstand: {i[3]}")
+        cO.Output(strings).printString()
 
 
 class DeleteSeedCommand(Command):
@@ -99,14 +115,14 @@ class DeleteSeedCommand(Command):
 
     def call(self, args):
         if len(args) != 1:
-            print("Bitte benutze: deleteSeed <Name>")
+            cO.Output("Bitte benutze: deleteSeed <Name>").printString()
             return
         if args[0] == "all":
             main.connection.execute_stmt("DELETE FROM saat")
-            print("Alle Einträge gelöscht")
+            cO.Output(["Alle Einträge gelöscht"]).printString()
         else:
             main.connection.execute_stmt("DELETE FROM saat WHERE name= %s", (args[0],))
-            print(f"{args[0]} wurde aus der Datenbank gelöscht.")
+            cO.Output([f"{args[0]} wurde aus der Datenbank gelöscht."]).printString()
 
 
 class ShowFieldsCommand(Command):
@@ -115,11 +131,13 @@ class ShowFieldsCommand(Command):
 
     def call(self, args):
         if len(args) != 0:
-            print("Bitte benutze: showFields")
+            cO.Output(["Bitte benutze: showFields"]).printString()
             return
         result = main.connection.qry_stmt("SELECT * FROM fields")
-        for r in result:
-            print(r[0], r[1], r[2], r[3])
+        strings = []
+        for i in result:
+            strings.append(f"Id: {i[0]} | Breite: {i[2]} | Höhe: {i[1]}")
+        cO.Output(strings).printString()
 
 
 class GrowCalculation(Command):
@@ -128,7 +146,7 @@ class GrowCalculation(Command):
 
     def call(self, args):
         if len(args) != 2:
-            print("Bitte benutze: growCalculation <FeldID> <SaatgutName>")
+            cO.Output(["Bitte benutze: growCalculation <FeldID> <SaatgutName>"]).printString()
             return
         else:
             try:
@@ -146,7 +164,7 @@ class OpenMenu(Command):
 
     def call(self, args):
         if len(args) != 0:
-            cO.Output("Bitte benutze: menu").printString()
+            cO.Output(["Bitte benutze: menu"]).printString()
             return
 
         menu.Menu(self.main_instance)

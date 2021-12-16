@@ -1,7 +1,8 @@
-import saaterstellung as sad
+import erstellung as sad
 import main
 import getData as gD
 import growCalculation as gC
+import createOutput as cO
 
 
 class Menu:
@@ -11,59 +12,80 @@ class Menu:
         self.menu(main_instance)
 
     def menu(self, main_instance):
-        print("")
-        print("1) Zeige die Liste der Verfügbaren Kornarten ")
-        print("2) Füge eine neue Kornart hinzu")
-        print("3) Führe eine Feldberechnung durch")
-        print("4) Beende dieses Menu")
-        print("Bitte gib eine der Nummern ein: ")
+        cO.Output(["1) Zeige die Liste der Verfügbaren Kornarten",
+                   "2) Zeige die Líste der verfügbaren Felder",
+                   "3) Füge eine neue Kornart hinzu",
+                   "4) Füge ein neues Feld hinzu",
+                   "5) Führe eine Feldberechnung durch",
+                   "6) Beende dieses Menu",
+                   "Bitte gib eine der Nummern ein: "]).printString()
         is_input_number = True
         while is_input_number:
             try:
                 self.command = int(input("» "))
                 is_input_number = False
             except ValueError:
-                print("Falsches Format! Bitte gib 1, 2 oder 3 ein")
+                cO.Output(["Falsches Format! Bitte gib eine Zahl ein"]).printString()
 
         if self.command == 1:
             result = main.connection.qry_stmt("SELECT * FROM saat")
-            for r in result:
-                print(r[0], r[1], r[2], r[3])
+            strings = []
+            for i in result:
+                strings.append(f"Name: {i[0]} | Wachzeit: {i[1]} | Kornabstand: {i[2]} | Reihenabstand: {i[3]}")
+            strings.append("Drücke eine Taste um fortzufahren")
+            cO.Output(strings).printString()
+            input()
             self.menu(main_instance)
+
         elif self.command == 2:
-            data = gD.GetData().seedData()
-            sad.Create(data[0], data[1], data[2], data[3])
-            print(f"Das Saatgut {data[0]} wurde erfolgreich erstellt")
+            result = main.connection.qry_stmt("SELECT * FROM fields")
+            strings = []
+            for i in result:
+                strings.append(f"Id: {i[0]} | Breite: {i[2]} | Höhe: {i[1]}")
+            strings.append("Drücke eine Taste um fortzufahren")
+            cO.Output(strings).printString()
+            input()
             self.menu(main_instance)
 
         elif self.command == 3:
+            data = gD.GetData().seedData()
+            sad.CreateSeed(data[0], data[1], data[2], data[3])
+            cO.Output([f"Das Saatgut {data[0]} wurde erfolgreich erstellt"]).printString()
+            self.menu(main_instance)
 
-            print("Bitte wähle eins dieser Felder und gib die entsprechende ID ein:")
-            print("-------------------------------------")
+        elif self.command == 4:
+            data = gD.GetData().fieldData()
+            sad.CreateField(data[0], data[1])
+            cO.Output(["Das Feld wurde erfolgreich erstellt", "Drücke Enter um fortzufahren"]).printString()
+            input()
+            self.menu(main_instance)
+
+        elif self.command == 5:
+
+            strings = ["Bitte wähle eins dieser Felder und gib die entsprechende ID ein:", "-------------------------------------"]
             for i in gD.GetData().Fields():
-                print(f"Id: {i[0]} | Breite: {i[2]} | Höhe: {i[1]}")
-            print("-------------------------------------")
+                strings.append(f"Id: {i[0]} | Breite: {i[2]} | Höhe: {i[1]}")
+            cO.Output(strings).printString()
             FieldID = int(input("» "))
 
-            print("Bitte wähle eins der Saatgüter und gib den Namen ein:")
-            print("-------------------------------------")
+            strings = ["Bitte wähle eins der Saatgüter und gib den Namen ein:", "-------------------------------------"]
             for i in gD.GetData().Saat():
-                print(f"Name: {i[0]} | Wachzeit: {i[1]} | Kornabstand: {i[2]} | Reihenabstand: {i[3]}")
-            print("-------------------------------------")
+                strings.append(f"Name: {i[0]} | Wachzeit: {i[1]} | Kornabstand: {i[2]} | Reihenabstand: {i[3]}")
+            cO.Output(strings).printString()
             SeedName = input("» ")
 
-            #try:
-            seedCount, xCount, yCount = gC.GrowCalculation(FieldID, SeedName).calcCount()
-            print(f"Es können {xCount} Reihen mit jeweils {yCount} Pflanzen gesät werden")
-            print(f"Auf dieses Feld passen insgesamt {seedCount} der gewählen Saatart")
-            #except:
-                #print("Berechnung Fehlgeschlagen, bitte versuchen Sie es erneut")
-
+            try:
+                seedCount, xCount, yCount = gC.GrowCalculation(FieldID, SeedName).calcCount()
+                cO.Output([f"Es können {xCount} Reihen mit jeweils {yCount} Pflanzen gesät werden", f"Auf dieses Feld passen insgesamt {seedCount} der gewählen Saatart", "Drücke eine Taste um fortzufahren"]).printString()
+                input()
+            except:
+                cO.Output(["Berechnung Fehlgeschlagen, bitte versuchen Sie es erneut", "Drücke eine Taste um fortzufahren"]).printString()
+                input()
 
             self.menu(main_instance)
-        elif self.command == 4:
-            print("")
-            print("Menu verlassen. Gib einen Befehl ein")
+
+        elif self.command == 6:
+            cO.Output(["Menu verlassen. Gib einen Befehl ein"]).printString()
         else:
-            print("please Enter a Valid Number. Press Enter to try again.")
+            cO.Output(["please Enter a Valid Number. Press Enter to try again."]).printString()
             self.menu(main_instance)
