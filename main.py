@@ -2,7 +2,7 @@ import database as db
 import command as cmd
 
 connection = db.Connection(
-    hostname="db.faidhd.de",
+    hostname="38.242.241.136",
     database="facharbeit",
     username="facharbeit",
     password="PhVS_-T0nNc7*K3]",
