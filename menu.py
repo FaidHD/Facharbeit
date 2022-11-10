@@ -14,10 +14,12 @@ class Menu:
     def menu(self, main_instance):
         cO.Output(["1) Zeige die Liste der Verfügbaren Kornarten",
                    "2) Zeige die Líste der verfügbaren Felder",
-                   "3) Füge eine neue Kornart hinzu",
-                   "4) Füge ein neues Feld hinzu",
-                   "5) Führe eine Feldberechnung durch",
-                   "6) Beende dieses Menu",
+                   "3) Zeige die Liste der verfügbaren Traktoren",
+                   "4) Füge eine neue Kornart hinzu",
+                   "5) Füge ein neues Feld hinzu",
+                   "6) Füge einen neuen Traktor hinzu",
+                   "7) Führe eine Feldberechnung durch",
+                   "8) Beenden",
                    "Bitte gib eine der Nummern ein: "]).printString()
         is_input_number = True
         while is_input_number:
@@ -47,20 +49,29 @@ class Menu:
             input()
             self.menu(main_instance)
 
-        elif self.command == 3:
+        elif self.command == 4:
             data = gD.GetData().seedData()
             sad.CreateSeed(data[0], data[1], data[2], data[3])
-            cO.Output([f"Das Saatgut {data[0]} wurde erfolgreich erstellt"]).printString()
+            cO.Output([f"Das Saatgut {data[0]} wurde erfolgreich erstellt", "Drücke Enter um fortzufahren"]).printString()
+            input()
             self.menu(main_instance)
 
-        elif self.command == 4:
+        elif self.command == 5:
             data = gD.GetData().fieldData()
             sad.CreateField(data[0], data[1])
             cO.Output(["Das Feld wurde erfolgreich erstellt", "Drücke Enter um fortzufahren"]).printString()
             input()
             self.menu(main_instance)
 
-        elif self.command == 5:
+        elif self.command == 6:
+            data = gD.GetData().TractorData()
+            print(data)
+            sad.CreateTractor(data[0], data[1], data[2])
+            cO.Output([f"Der Traktor {data[0]} wurde erfolgreich erstellt", "Drücke Enter um fortzufahren"]).printString()
+            input()
+            self.menu(main_instance)
+
+        elif self.command == 7:
 
             strings = ["Bitte wähle eins dieser Felder und gib die entsprechende ID ein:", "-------------------------------------"]
             for i in gD.GetData().Fields():
@@ -84,7 +95,7 @@ class Menu:
 
             self.menu(main_instance)
 
-        elif self.command == 6:
+        elif self.command == 8:
             cO.Output(["Menu verlassen. Gib einen Befehl ein"]).printString()
         else:
             cO.Output(["please Enter a Valid Number. Press Enter to try again."]).printString()

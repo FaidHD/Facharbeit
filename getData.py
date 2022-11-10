@@ -5,6 +5,8 @@ import createOutput as cO
 class GetData:
 
     def __init__(self):
+        self.avSpeed = None
+        self.fuelUsage = None
         self.seed = ""
         self.name = ""
         self.grow_time = ""
@@ -13,7 +15,6 @@ class GetData:
         self.result = []
         self.height = []
         self.width = []
-        pass
 
     def seedData(self):
         cO.Output(["Bitte gib den Namen der Kornart an, die du anlegen möchtest"]).printString()
@@ -32,6 +33,15 @@ class GetData:
         cO.Output(["Bitte gib die Breite des Feldes ein"]).printString()
         self.width = int(input("» "))
         return self.height, self.width
+
+    def TractorData(self):
+        cO.Output(["Bitte gib den Namen des Traktors ein"]).printString()
+        self.name = input("» ")
+        cO.Output(["Bitte den Spritverbrauch pro Stunde an"]).printString()
+        self.fuelUsage = input("» ")
+        cO.Output(["Bitte gib die Durchschnittsgeschwindigkeit an"]).printString()
+        self.avSpeed = input("» ")
+        return self.name, self.fuelUsage, self.avSpeed
 
     def Fields(self):
         self.result = main.connection.qry_stmt("SELECT * FROM fields")
