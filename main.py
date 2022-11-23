@@ -1,66 +1,42 @@
-import os, sys, sqlite3
-import saaterstellung as saE
-import createDataBase as cDB
+import database as db
+import command as cmd
+
+connection = db.Connection(
+    hostname="38.242.241.136",
+    database="facharbeit",
+    username="facharbeit",
+    password="PhVS_-T0nNc7*K3]",
+)
 
 
-def SeedInput():
-    name = input("Name: ")
-    wachszeit = int(input("Wachszeit: "))
-    kornabstand = int(input("Kornabstand: "))
-    reihenabstand = int(input("Reihenabstand: "))
-    saE.create(name, wachszeit, kornabstand, reihenabstand)
+class Main:
+
+    def __init__(self):
+        self.connection = connection
+        self.command_manager = None
+
+    def start(self):
+        self.connection.execute_stmt(
+            "CREATE TABLE IF NOT EXISTS saat(`name` VARCHAR(255), `wachszeit` INTEGER NOT NULL, `kornabstand` INTEGER NOT NULL, `reihenabstand` INTEGER NULL, PRIMARY KEY(`name`));")  # SQL Abfrage zur erstellung der benötigten Tabellen
+
+        self.command_manager = cmd.CommandManager()  # Initialisierung des CommandManagers
+        self.command_manager.register_command(cmd.HelpCommand(self))  #
+        self.command_manager.register_command(cmd.CreateSeedCommand())  #
+        self.command_manager.register_command(cmd.CreateFieldCommand())  #
+        self.command_manager.register_command(cmd.CreateTractorCommand()) #
+        self.command_manager.register_command(cmd.ShowSeedsCommand())  # Registrierung der Commands
+        self.command_manager.register_command(cmd.DeleteSeedCommand())  #
+        self.command_manager.register_command(cmd.ShowFieldsCommand())  #
+        self.command_manager.register_command(cmd.GrowCalculationCommand())  #
+        self.command_manager.register_command(cmd.OpenMenuCommand(self))  #
+        self.command_manager.wait_for_command_input()  # Abfangen der Nutzereingaben starten
 
 
-def sven():
-    # Verbindung, Cursor
-    connection = sqlite3.connect("Saatgut.db")
-    cursor = connection.cursor()
+if __name__ == "__main__":
+    main = Main()
+    main.start()
 
-    # SQL-Abfrage
-    sql = "SELECT * FROM saat"
 
-    cursor.execute(sql)
-
-    # Ausgabe des Ergebnisses
-    for dsatz in cursor:
-        print(dsatz[0], dsatz[1], dsatz[2], dsatz[3])
-
-    # Verbindung beenden
+def stop():
     connection.close()
-    print("Press Enter to continue!")
-    input()
-    start()
-
-def start():
-    print("Enter 1 to show currently saved seeds")
-    print("Enter 2 to add a new seed to the Database")
-    print("Enter 3 to delete the Database and create a new one")
-    command = int(input("Please Enter One of the Numbers: "))
-
-    if command == 1:
-        sven()
-    elif command == 2:
-        SeedInput()
-        start()
-
-    elif command == 3:
-        try:
-            os.remove("Saatgut.db")
-        except:
-            print("No old Database found, creating new one")
-        cDB.Database()
-        start()
-    else:
-        print("please Enter a Valid Number. Press Enter to try again.")
-        input()
-
-
-# Existenz feststellen
-if os.path.exists("Saatgut.db"):
-    print("Database already created!")
-    start()
-else:
-    cDB.Database()
-    start()
-
-
+    print("Shutting down...")
