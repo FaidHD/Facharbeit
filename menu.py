@@ -8,6 +8,7 @@ import createOutput as cO
 class Menu:
 
     def __init__(self, main_instance):
+        self.main_instance = main_instance
         self.command = None
         self.menu(main_instance)
 
@@ -130,6 +131,7 @@ class Menu:
 
         elif self.command == 8:
             cO.Output(["Menu verlassen. Gib einen Befehl ein"]).printString()
+            self.main_instance.command_manager.wait_for_command_input()
         else:
             cO.Output(["please Enter a Valid Number. Press Enter to try again."]).printString()
             self.menu(main_instance)

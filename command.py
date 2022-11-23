@@ -168,14 +168,16 @@ class GrowCalculationCommand(Command):
         super().__init__("growCalculation", "Führe Saat und Felder berechnung durch")
 
     def call(self, args):
-        if len(args) != 2:  # Zwei Argumente gefordert
-            cO.Output(["Bitte benutze: growCalculation <FeldID> <SaatgutName>"]).printString()
+        if len(args) != 3:  # Zwei Argumente gefordert
+            cO.Output(["Bitte benutze: growCalculation <FeldID> <SaatgutName> <TraktorID>"]).printString()
             return
         else:
             try:
-                seedCount, xCount, yCount = gC.GrowCalculation(args[0], args[1]).calcCount()
+                seedCount, xCount, yCount, milageDriven, timeDriven, fuelUsed, fuelCost = gC.GrowCalculation(int(args[0]), args[1], int(args[2])).calcData()
                 cO.Output([f"Es können {xCount} Reihen mit jeweils {yCount} Pflanzen gesät werden",
-                           f"Auf dieses Feld passen insgesamt {seedCount} der gewählen Saatart"]).printString()
+                           f"Auf dieses Feld passen insgesamt {seedCount} der gewählen Saatart",
+                           f"Mit diesem Traktor wird eine Distanz von {milageDriven / 100}km zurückgelegt. Diese Distanz wird in {timeDriven}h gefahren und wird {fuelUsed}L verbrauchen, was bei einem Preis von 1.89€ {fuelCost}€ kosten wird"])\
+                    .printString()
             except:
                 cO.Output(["Berechnung Fehlgeschlagen, bitte versuchen Sie es erneut"]).printString()
 

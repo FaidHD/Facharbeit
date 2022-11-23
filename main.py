@@ -16,8 +16,9 @@ class Main:
         self.command_manager = None
 
     def start(self):
-        self.connection.execute_stmt(
-            "CREATE TABLE IF NOT EXISTS saat(`name` VARCHAR(255), `wachszeit` INTEGER NOT NULL, `kornabstand` INTEGER NOT NULL, `reihenabstand` INTEGER NULL, PRIMARY KEY(`name`));")  # SQL Abfrage zur erstellung der benötigten Tabellen
+        self.connection.execute_stmt("CREATE TABLE IF NOT EXISTS saat(`name` VARCHAR(255), `wachszeit` INT NOT NULL, `kornabstand` INT NOT NULL, `reihenabstand` INT NULL, PRIMARY KEY(`name`));")  # SQL Abfragen zur erstellung der benötigten Tabellen
+        self.connection.execute_stmt("CREATE TABLE IF NOT EXISTS fields(`id` INT NOT NULL AUTO_INCREMENT, `height` INT DEFAULT NULL, `width` INT DEFAULT NULL, `currentlyUsed` TINYINT DEFAULT NULL, PRIMARY KEY(`id`));")  # SQL Abfragen zur erstellung der benötigten Tabellen
+        self.connection.execute_stmt("CREATE TABLE IF NOT EXISTS tractors(`id` INT NOT NULL AUTO_INCREMENT, `name` TINYTEXT NOT NULL DEFAULT 'name missing', `fuelUsage` INT NOT NULL DEFAULT 0, `speed` INT NULL DEFAULT 0, PRIMARY KEY(`id`), UNIQUE KEY `name` (`name`));")  # SQL Abfragen zur erstellung der benötigten Tabellen
 
         self.command_manager = cmd.CommandManager()  # Initialisierung des CommandManagers
         self.command_manager.register_command(cmd.HelpCommand(self))  #
@@ -28,8 +29,9 @@ class Main:
         self.command_manager.register_command(cmd.DeleteSeedCommand())  #
         self.command_manager.register_command(cmd.ShowFieldsCommand())  #
         self.command_manager.register_command(cmd.GrowCalculationCommand())  #
-        self.command_manager.register_command(cmd.OpenMenuCommand(self))  #
-        self.command_manager.wait_for_command_input()  # Abfangen der Nutzereingaben starten
+        menu_command = cmd.OpenMenuCommand(self)
+        self.command_manager.register_command(menu_command)  #
+        menu_command.call([])  # Abfangen der Nutzereingaben starten
 
 
 if __name__ == "__main__":
