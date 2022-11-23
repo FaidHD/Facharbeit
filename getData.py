@@ -28,9 +28,9 @@ class GetData:
         return self.name, self.grow_time, self.seed_space, self.row_space
 
     def fieldData(self):
-        cO.Output(["Bitte gib die höhe des Feldes ein"]).printString()
+        cO.Output(["Bitte gib die Länge des Feldes in km ein"]).printString()
         self.height = int(input("» "))
-        cO.Output(["Bitte gib die Breite des Feldes ein"]).printString()
+        cO.Output(["Bitte gib die Breite des Feldes in km ein"]).printString()
         self.width = int(input("» "))
         return self.height, self.width
 
@@ -49,6 +49,10 @@ class GetData:
 
     def Saat(self):
         self.result = main.connection.qry_stmt("SELECT * FROM saat")
+        return self.result
+
+    def Tractor(self):
+        self.result = main.connection.qry_stmt("SELECT * FROM tractors")
         return self.result
     
     def seeds(self, seed):
@@ -75,4 +79,15 @@ class GetData:
         self.result = str(self.result).replace("]", "")
         self.result = str(self.result).split(",")
         #print(f"Erhaltene Daten: {self.result}")
+        return self.result
+
+    def Tractors(self, nummer):
+        self.result = main.connection.qry_stmt("SELECT * FROM tractors WHERE id = %s;", (nummer,))
+        self.result = str(self.result).replace("(", "")
+        self.result = str(self.result).replace(")", "")
+        self.result = str(self.result).replace("'", "")
+        self.result = str(self.result).replace(" ", "")
+        self.result = str(self.result).replace("[", "")
+        self.result = str(self.result).replace("]", "")
+        self.result = str(self.result).split(",")
         return self.result

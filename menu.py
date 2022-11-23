@@ -49,6 +49,16 @@ class Menu:
             input()
             self.menu(main_instance)
 
+        elif self.command == 3:
+            result = main.connection.qry_stmt("SELECT * FROM tractors")
+            strings = []
+            for i in result:
+                strings.append(f"Name: {i[1]} | Verbrauch: {i[2]}L/h | Durchschnittsgeschwindigkeit: {i[3]}km/h")
+            strings.append("Drücke eine Taste um fortzufahren")
+            cO.Output(strings).printString()
+            input()
+            self.menu(main_instance)
+
         elif self.command == 4:
             data = gD.GetData().seedData()
             sad.CreateSeed(data[0], data[1], data[2], data[3])
@@ -72,22 +82,45 @@ class Menu:
             self.menu(main_instance)
 
         elif self.command == 7:
-
-            strings = ["Bitte wähle eins dieser Felder und gib die entsprechende ID ein:", "-------------------------------------"]
-            for i in gD.GetData().Fields():
-                strings.append(f"Id: {i[0]} | Breite: {i[2]} | Höhe: {i[1]}")
-            cO.Output(strings).printString()
-            FieldID = int(input("» "))
-
-            strings = ["Bitte wähle eins der Saatgüter und gib den Namen ein:", "-------------------------------------"]
-            for i in gD.GetData().Saat():
-                strings.append(f"Name: {i[0]} | Wachzeit: {i[1]} | Kornabstand: {i[2]} | Reihenabstand: {i[3]}")
-            cO.Output(strings).printString()
-            SeedName = input("» ")
+            try:
+                strings = ["Bitte wähle eins dieser Felder und gib die entsprechende ID ein:", "-------------------------------------"]
+                for i in gD.GetData().Fields():
+                    strings.append(f"Id: {i[0]} | Breite: {i[2]} | Höhe: {i[1]}")
+                cO.Output(strings).printString()
+                FieldID = int(input("» "))
+            except:
+                print("Etwas ist schiefgelaufen! Drücke Enter um ins Hauptmenü zurück zu gelangen")
+                input()
+                self.menu(main_instance)
 
             try:
-                seedCount, xCount, yCount = gC.GrowCalculation(FieldID, SeedName).calcCount()
-                cO.Output([f"Es können {xCount} Reihen mit jeweils {yCount} Pflanzen gesät werden", f"Auf dieses Feld passen insgesamt {seedCount} der gewählen Saatart", "Drücke eine Taste um fortzufahren"]).printString()
+                strings = ["Bitte wähle eins der Saatgüter und gib den Namen ein:", "-------------------------------------"]
+                for i in gD.GetData().Saat():
+                    strings.append(f"Name: {i[0]} | Wachzeit: {i[1]} | Kornabstand: {i[2]} | Reihenabstand: {i[3]}")
+                cO.Output(strings).printString()
+                SeedName = input("» ")
+            except:
+                print("Etwas ist schiefgelaufen! Drücke Enter um ins Hauptmenü zurück zu gelangen")
+                input()
+                self.menu(main_instance)
+
+            try:
+                strings = ["Bitte wähle einen der traktoren und gib die ID ein:", "-------------------------------------"]
+                for i in gD.GetData().Tractor():
+                    strings.append(f"ID: {i[0]} | Name: {i[1]} | Verbrauch: {i[2]}L/h | Durchschnittsgeschwindigkeit: {i[3]}km/h")
+                cO.Output(strings).printString()
+                TractorID = int(input("» "))
+
+            except:
+                print("Etwas ist schiefgelaufen! Drücke Enter um ins Hauptmenü zurück zu gelangen")
+                input()
+                self.menu(main_instance)
+
+            try:
+                seedCount, xCount, yCount, milageDriven, timeDriven, fuelUsed, fuelCost = gC.GrowCalculation(FieldID, SeedName, TractorID).calcData()
+                cO.Output([f"Es können {xCount} Reihen mit jeweils {yCount} Pflanzen gesät werden", f"Auf dieses Feld passen insgesamt {seedCount} der gewählen Saatart",
+                           f"Mit diesem Traktor wird eine Distanz von {milageDriven/100}km zurückgelegt. Diese Distanz wird in {timeDriven}h gefahren und wird {fuelUsed}L verbrauchen, was bei einem Preis von 1.89€ {fuelCost}€ kosten wird",
+                           "Drücke eine Taste um fortzufahren"]).printString()
                 input()
             except:
                 cO.Output(["Berechnung Fehlgeschlagen, bitte versuchen Sie es erneut", "Drücke eine Taste um fortzufahren"]).printString()
