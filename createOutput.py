@@ -4,13 +4,13 @@ class Output:
         self.printstring = string
 
     def printString(self):
-        print("")
+        print("") #leerzeilen um alte Ausgabe weiter nach oben zu schieben
         print("")
         print("")
         print("")
         print("")
         print("------------------------------")
-        for i in self.printstring:
+        for i in self.printstring: # jeder String im Array wird einzeln geprinted
             print(i)
         print("------------------------------")
         print("")
