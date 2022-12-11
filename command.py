@@ -26,7 +26,8 @@ class CommandManager:  # CommandManager Objekt - Es besteht nur eine Instanz die
         for command in self.registered_commands:  # Durchgehen durch alle registrierten Befehle
             if command.name == name:
                 command.call(args)  # Ausführen des Codes, der für diesen Befehl erstellt wurde
-                self.wait_for_command_input()  # Erneute Ausführung dieser Methode
+                if not isinstance(command, OpenMenuCommand):
+                    self.wait_for_command_input()  # Erneute Ausführung dieser Methode
                 return
         cO.Output([
                       "Command nicht gefunden. Um eine Liste an Befehlen zu erhalten, nutze \"help\""]).printString()  # Falls kein Befehl gefunden wurde
@@ -38,11 +39,11 @@ class CommandManager:  # CommandManager Objekt - Es besteht nur eine Instanz die
 
 class Command:
 
-    def __init__(self, name, description):
-        self.name = name
-        self.description = description
+    def __init__(self, name, description):  # Der Konstruktor braucht zwei Strings 1. Command-Name 2. Command Beschreibung
+        self.name = name  # Speichern des Namens in der Instanz des Commands
+        self.description = description  # Speichern der Beschreibung in der Instanz des Commands
 
-    def call(self, args):
+    def call(self, args):  # Methode zum Aufrufen des individuellen Codes der Commands, wird in den Commands überschrieben
         cO.Output([
                       "Call method from command" + self.name + " not defined"]).printString()  # Falls die call Methode nicht überschrieben wird
 
@@ -51,7 +52,7 @@ class HelpCommand(Command):
 
     def __init__(self, main_instance):
         super().__init__("help",
-                         "Liste alle verfügbaren Befehle auf")  # Initialisierung des übergeordneten Command Objekts
+                         "Liste alle verfügbaren Befehle auf")  # Aufrufen des Konstruktors der vererbten Klasse
         self.main_instance = main_instance  # Um in der call Methode darauf zugreifen zu können
 
     def call(self, args):
@@ -65,7 +66,7 @@ class HelpCommand(Command):
 class CreateSeedCommand(Command):
 
     def __init__(self):
-        super().__init__("createSeed", "Füge eine neue Kornart in der Datenbank hinzu")
+        super().__init__("createSeed", "Füge eine neue Kornart in der Datenbank hinzu")  # Aufrufen des Konstruktors der vererbten Klasse
 
     def call(self, args):
         if len(args) == 4:  # Überprüfung der Anzahl der Argumente, da exakt 4 für diesen Command benötigt werden
@@ -87,7 +88,7 @@ class CreateSeedCommand(Command):
 
 class CreateFieldCommand(Command):
     def __init__(self):
-        super().__init__("createField", "Erstelle ein neues Feld")
+        super().__init__("createField", "Erstelle ein neues Feld")  # Aufrufen des Konstruktors der vererbten Klasse
 
     def call(self, args):
         if len(args) != 2:  # Überprüfung der Anzahl der Argumente, da exakt 2 für diesen Command benötigt werden
@@ -101,7 +102,7 @@ class CreateFieldCommand(Command):
 
 class CreateTractorCommand(Command):
     def __init__(self):
-        super().__init__("createTractor", "Erstelle einen neuen Traktor")
+        super().__init__("createTractor", "Erstelle einen neuen Traktor")  # Aufrufen des Konstruktors der vererbten Klasse
 
     def call(self, args):
         if len(args) != 3:  # Überprüfung der Anzahl der Argumente, da exakt 2 für diesen Command benötigt werden
@@ -116,7 +117,7 @@ class CreateTractorCommand(Command):
 class ShowSeedsCommand(Command):
 
     def __init__(self):
-        super().__init__("showSeeds", "Zeige alle verfügbaren Kornarten an")
+        super().__init__("showSeeds", "Zeige alle verfügbaren Kornarten an")  # Aufrufen des Konstruktors der vererbten Klasse
 
     def call(self, args):
         if len(args) != 0:  # Keine Argumente gefordert
@@ -133,7 +134,7 @@ class ShowSeedsCommand(Command):
 class DeleteSeedCommand(Command):
 
     def __init__(self):
-        super().__init__("deleteSeed", "Lösche eine Kornart aus der Datenbank")
+        super().__init__("deleteSeed", "Lösche eine Kornart aus der Datenbank")  # Aufrufen des Konstruktors der vererbten Klasse
 
     def call(self, args):
         if len(args) != 1:  # Ein Argument gefordert
@@ -149,7 +150,7 @@ class DeleteSeedCommand(Command):
 
 class ShowFieldsCommand(Command):
     def __init__(self):
-        super().__init__("showFields", "Zeige alle verfügbaren Felder an")
+        super().__init__("showFields", "Zeige alle verfügbaren Felder an")  # Aufrufen des Konstruktors der vererbten Klasse
 
     def call(self, args):
         if len(args) != 0:  # Keine Argumente gefordert
@@ -165,7 +166,7 @@ class ShowFieldsCommand(Command):
 
 class GrowCalculationCommand(Command):
     def __init__(self):
-        super().__init__("growCalculation", "Führe Saat und Felder berechnung durch")
+        super().__init__("growCalculation", "Führe Saat und Felder berechnung durch")  # Aufrufen des Konstruktors der vererbten Klasse
 
     def call(self, args):
         if len(args) != 3:  # Zwei Argumente gefordert
@@ -185,7 +186,7 @@ class GrowCalculationCommand(Command):
 class OpenMenuCommand(Command):  # Command, um in das Menu zu kommen (vereinfachter Eingabemodus)
 
     def __init__(self, main_instance):
-        super().__init__("menu", "Öffne das Menu")
+        super().__init__("menu", "Öffne das Menu")  # Aufrufen des Konstruktors der vererbten Klasse
         self.main_instance = main_instance
 
     def call(self, args):
